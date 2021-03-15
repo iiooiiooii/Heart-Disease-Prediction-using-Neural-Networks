@@ -80,3 +80,37 @@ Y_train = to_categorical(y_train, num_classes=None)
 Y_test = to_categorical(y_test, num_classes=None)
 print (Y_train.shape)
 print (Y_train[:10])
+
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import Adam
+
+# define a function to build the keras model
+def create_model():
+    # create model
+    model = Sequential()
+    model.add(Dense(8, input_dim=13, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(4, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(5, activation='softmax'))
+    
+    # compile model
+    adam = Adam(lr=0.001)
+    model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
+    return model
+
+model = create_model()
+print(model.summary())
+
+
+# fit the model to the training data
+model.fit(X_train, Y_train, epochs=100, batch_size=10, verbose = 1)
+
+
+# convert into binary classification problem - heart disease or no heart disease
+Y_train_binary = y_train.copy()
+Y_test_binary = y_test.copy()
+
+Y_train_binary[Y_train_binary > 0] = 1
+Y_test_binary[Y_test_binary > 0] = 1
+
+print (Y_train_binary[:20])
