@@ -114,3 +114,27 @@ Y_train_binary[Y_train_binary > 0] = 1
 Y_test_binary[Y_test_binary > 0] = 1
 
 print (Y_train_binary[:20])
+
+
+
+# define a new keras model for binary classification
+def create_binary_model():
+    # create model
+    model = Sequential()
+    model.add(Dense(8, input_dim=13, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(4, kernel_initializer='normal', activation='relu'))
+    model.add(Dense(1, activation='sigmoid'))
+    
+    # Compile model
+    adam = Adam(lr=0.001)
+    model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
+    return model
+
+binary_model = create_binary_model()
+
+print(binary_model.summary())
+
+
+
+# fit the binary model on the training data
+binary_model.fit(X_train, Y_train_binary, epochs=100, batch_size=10, verbose = 1)
