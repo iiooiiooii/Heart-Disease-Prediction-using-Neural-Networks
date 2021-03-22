@@ -138,3 +138,23 @@ print(binary_model.summary())
 
 # fit the binary model on the training data
 binary_model.fit(X_train, Y_train_binary, epochs=100, batch_size=10, verbose = 1)
+
+
+# generate classification report using predictions for categorical model
+from sklearn.metrics import classification_report, accuracy_score
+
+categorical_pred = np.argmax(model.predict(X_test), axis=1)
+
+print('Results for Categorical Model')
+print(accuracy_score(y_test, categorical_pred))
+print(classification_report(y_test, categorical_pred))
+
+
+
+
+# generate classification report using predictions for binary model 
+binary_pred = np.round(binary_model.predict(X_test)).astype(int)
+
+print('Results for Binary Model')
+print(accuracy_score(Y_test_binary, binary_pred))
+print(classification_report(Y_test_binary, binary_pred))
